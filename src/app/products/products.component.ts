@@ -51,7 +51,7 @@ import { CommonModule } from '@angular/common';
 })
 export class ProductsComponent implements OnInit {
 
-  products: any[] = [{"id":1,"Name":"Volkswagen Golf","Price":20000,"Brand":"Volkswagen"},{"id":2,"Name":"BMW X5","Price":25000,"Brand":"BMW"},{"id":3,"Name":"Toyota Aygo","Price":10000,"Brand":"Toyota"},{"id":4,"Name":"Seat Ibiza","Price":12000,"Brand":"Seat"}]
+  products: any[] = []
 
   ngOnInit(): void {
     this.fetchAndDisplayProducts();
@@ -66,8 +66,7 @@ export class ProductsComponent implements OnInit {
         return response.json();
       })
       .then((data: any) => {
-        console.log(data);
-        this.products = data;
+        this.products = JSON.parse(data);
         console.log('products: ', this.products)
       })
       .catch((error: Error) => {
