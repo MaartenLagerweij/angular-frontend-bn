@@ -11,14 +11,14 @@ import { Router } from '@angular/router';
     <div class="login-form">
       <form (submit)="onLogin()">
         <div>
-          <label for="username">Gebruikersnaam:</label>
+          <label for="username">Username:</label>
           <input type="text" id="username" [(ngModel)]="username" name="username" required>
         </div>
         <div>
-          <label for="password">Wachtwoord:</label>
+          <label for="password">Password:</label>
           <input type="password" id="password" [(ngModel)]="password" name="password" required>
         </div>
-        <button type="submit">Inloggen</button>
+        <button type="submit">Login</button>
       </form>
       <div class="error-message" [class.hidden]="!loginError">
         {{ loginError }}
@@ -82,7 +82,7 @@ export class LoginComponent {
     ) {}
 
   onLogin() {
-    console.log('Inloggegevens:', this.username, this.password);
+    console.log('Login credentials:', this.username, this.password);
 
     const loginData = {
       username: this.username,
@@ -95,15 +95,15 @@ export class LoginComponent {
     
     this.http.post('http://127.0.0.1:8000/api/login', JSON.stringify(loginData), { headers }).subscribe(
       (response) => {
-        console.log('Inloggen gelukt:', response);
+        console.log('Login success:', response);
         this.router.navigate(['/products']);
       },
       (error) => {
         if (error.status === 401) {
-          console.error('Onjuiste inloggegevens.');
-          this.loginError = 'Onjuiste inloggegevens.';
+          console.error('Wrong login credentials.');
+          this.loginError = 'Wrong login credentials.';
         }
-        console.error('Fout bij inloggen:', error);
+        console.error('Error with logging in:', error);
         // Voeg hier logica toe om foutmeldingen aan de gebruiker te tonen.
       }
     );
