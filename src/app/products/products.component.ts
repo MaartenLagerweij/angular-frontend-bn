@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-products',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   template: `
   <div class="outer">
       <h2>Products</h2>
@@ -24,6 +25,23 @@ import { CommonModule } from '@angular/common';
           </tr>
         </tbody>
       </table>
+
+      <h2>Add product:</h2>
+      <form (submit)="addProduct()">
+        <div class="form-group">
+          <label for="name">Name:</label>
+          <input type="text" id="name" [(ngModel)]="newProduct.Name" name="name" required>
+        </div>
+        <div class="form-group">
+          <label for="price">Price:</label>
+          <input type="number" id="price" [(ngModel)]="newProduct.Price" name="price" required>
+        </div>
+        <div class="form-group">
+          <label for="brand">Brand:</label>
+          <input type="text" id="brand" [(ngModel)]="newProduct.Brand" name="brand" required>
+        </div>
+        <button type="submit">Add</button>
+      </form>
     </div>
   `,
   styles: `
@@ -47,11 +65,42 @@ import { CommonModule } from '@angular/common';
     padding: 10px;
     border-bottom: 1px solid #ccc;
     text-align: left;
-  }`
+  }
+  .form-group {
+    margin-bottom: 10px;
+    display: inline-block;
+    margin-right: 10px;
+  }
+  
+  label {
+    display: block;
+  }
+
+  .form-group input {
+    margin: 5px 25px;
+    max-width: 180px;
+  }
+  
+  input[type="text"],
+  input[type="number"] {
+    width: 100%;
+    padding: 5px;
+  }
+  
+  button[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+  `
 })
 export class ProductsComponent implements OnInit {
 
   products: any[] = []
+
+  newProduct: any = {};
 
   ngOnInit(): void {
     this.fetchAndDisplayProducts();
@@ -72,5 +121,10 @@ export class ProductsComponent implements OnInit {
       .catch((error: Error) => {
         console.error('There was a problem with the fetch operation:', error);
       });
+  }
+
+  addProduct(): void {
+    // Add login to send product to DB and add to list
+    console.log(this.newProduct);
   }
 }
